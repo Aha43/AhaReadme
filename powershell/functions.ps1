@@ -24,8 +24,10 @@ function New-Entry {
 function Update-Readme {
 
     $Readme = 'README.md'
-    ('') | Out-File -FilePath $Readme
-
+     
+    '*This repo **is my blog** (README is the TOC :-D) about hacking, primarly what I put up here at Github I guess... Really a lazy approach to blogging c[_], wrote all the publishing code myself (git and the hub do the rest), less than 50 lines of code (powershell/functions.ps1). MIT License for sure!*' | Out-File -FilePath $Readme
+    ('') | Out-File -FilePath $Readme -Append
+    ('') | Out-File -FilePath $Readme -Append
     $EntryFiles = (Get-ChildItem -Path 'entries' | Where-Object { -not $_.PsIsContainer } | Sort-Object LastWriteTime -Descending)
     foreach ($File in $EntryFiles) {
         Write-Host ('Processing ' + $File.Name)
@@ -33,8 +35,6 @@ function Update-Readme {
         $Content = Get-Content -Path $File.FullName
         $Title = $Content[1].Substring(4)
         $Date = $Content[2].Trim()
-        Write-Host ('  Title: ' + $Title)
-        Write-Host ('  Date: ' + $Date)
 
         ($Date + ' **[' + $Title + '](./entries/' + $File.Name + ')**') | Out-File -FilePath $Readme -Append
 
